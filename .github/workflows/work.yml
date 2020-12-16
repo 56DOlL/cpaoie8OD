@@ -1,0 +1,25 @@
+name: 'run'
+
+on:
+  schedule:
+    - cron: '30 16 * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - name: 'setup python'
+       uses: actions/setup-python@master
+       with: 
+         python-version: 3.7
+       
+     - name: main
+       env:
+         SCKEY: ${{ secrets.SCKEY }}
+         netease_username: ${{ secrets.netease_username }}
+         netease_password: ${{ secrets.netease_password }}
+       run: |
+         pip3 install -r requirements.txt
+         python3 ./NetEase_Music_daily/NetEase_Music_dailyForSCF.py
